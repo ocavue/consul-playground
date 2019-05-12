@@ -1,0 +1,45 @@
+# Set ssh key
+mkdir -p /var/run/sshd
+cd ~
+mkdir -p .ssh
+cd .ssh
+echo "-----BEGIN RSA PRIVATE KEY-----
+MIIEpQIBAAKCAQEA7WlrRAqDRtd72hWpYmU1Z/bA5DOpdrb7z4UFDRuXSDflt0tV
+3RMGA74ZO4Pk8dod6KpbUVBqPe0vo/w2iGOu8QiVweKuFqoWhK0HVrRZVvEcXC3a
+hJkkg+0a6br0W6314imf1C7VVVS0YpzZU6imxJVFzz3zflJ1vugiYtN50NdHpgqc
+msliJe6JL8+k+8q2n+MhU0jxezyGsT0PXXkkbK5ENTmX7qzX/fhnHMVf4JoF+qlp
+Mm9Ul1HT77gP87HlkbG3+anBOxM7NwDD2Q2efum83CiJjezy9PL/uycROTd/AWSR
+qL78RVdWnp+yttqONTaT8CRZ8IPdTPdx1ORBrQIDAQABAoIBAQC1BAjeUymu7QOo
+z5VbyZFD2JdQJ7fRJUmv+1tTmDLrxHrpG463Rhby6ZGxmCoK4WSmjqWbxTWMS/lk
+DhzCN0cezo3oy94yt7L9rDQJPu9TY/lcqzWOnnmCAVng1kQUVvpAW75aeO795dy3
+x6HIsLGe97XHgxPRwCu4yKPXOCkMOnBfyHWkue/VDCBa24maq5ZTNAet+l0ZQCPj
+xYp0ylYXKWDXjgCGhQPM7QA0OWQKRLYUUV7be2Fr6bvPxa6N/tX/WDksBKrMEUxn
+k1lOlmH+04YA295idZGbICSdT/j63CUY2QUcCs9DShHe3FGdwe5yZ06y06/7Dczy
+RPJgKCwBAoGBAP9vhkLnSu1+CH0FgpjfP9IYZKPTX9Cc1jp6Vo4d/IqoqdYjMCvA
+cMkPq0OibUDhiCyhkA1i3WaAdAvWLeDg3MekTh0et2lkVgMDovLvYTxBJ5px8amT
++XvSIrer5p6zOtrODMFCdsPev3kd6QPG0TXbLcy3s+qrU/wwepuFhzEBAoGBAO3v
+sz7qjg2KsQ0jg2gvJNGMieKAxriC+aznlMivEhCXEGxdYlhbOoub2ZWtb0LYUG1E
+9SG66YQvx5BXdgmyT1Hv1jprpC9Uy14JNDi6qimVPTGqJao3moQ2P0GFI13gulpU
+Wy4iAtXoPRY8uRQcF8/aas9F/j7Cnm6vTZUxpCStAoGADvh5VPh7Urn9Q16MTetf
+sS+Ozm84AWD/yUOcSQ4G3BWQhqVfUGEh+xa5AejGIHRXZ848RByUP0quAneWDsT/
+C5Bcp6ZCN6ISzHBtH3HaMA7dhFbDRB4RFCm3sS4ZARoeC+7hnn4HuekXLcEMBBWl
+81MaNxJZMBrEfFZXCUBlMQECgYEAyjU7j+ymbLvBW/kiZBgsoildxTDLsWMd7OOi
+firKn27CdlWmjpB5YMxCTgHm3FgZgcNo0BGZAs3YO8MYfYUcA/ZfiaaREehuLKyF
+xPBeTJiYOOzwtYgruNChUX1kYRPrS3kFRF+DKWcFAzD32S9GzU5CF4TUXWHoYwh4
+VqKpbMECgYEAwLZxH57kB5Xx5hlw3X6mYpe2E/ZAtM2gCEOdwy3pwGfWfljgraoy
+SIqNu0AaSy0iyCpgqqqmXdbnTB/fvXOZgN78AEpi0U6ok1r3PHZIw9Lnynn3+dlC
++fCgMoKzDU5b6UbspLe5M2HH533tnAmUfoQ7s2tWKkDwLPHjJRsUnT0=
+-----END RSA PRIVATE KEY-----
+" > ./id_rsa
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDtaWtECoNG13vaFaliZTVn9sDkM6l2tvvPhQUNG5dIN+W3S1XdEwYDvhk7g+Tx2h3oqltRUGo97S+j/DaIY67xCJXB4q4WqhaErQdWtFlW8RxcLdqEmSSD7RrpuvRbrfXiKZ/ULtVVVLRinNlTqKbElUXPPfN+UnW+6CJi03nQ10emCpyayWIl7okvz6T7yraf4yFTSPF7PIaxPQ9deSRsrkQ1OZfurNf9+GccxV/gmgX6qWkyb1SXUdPvuA/zseWRsbf5qcE7Ezs3AMPZDZ5+6bzcKImN7PL08v+7JxE5N38BZJGovvxFV1aen7K22o41NpPwJFnwg91M93HU5EGt root@vm
+" > ./id_rsa.pub
+cp ./id_rsa.pub ./authorized_keys
+chmod 600 ./id_rsa
+
+# Add consul into PATH
+ln -sf /data/consul-playground/consul /usr/local/bin/consul
+
+# Add user
+useradd --system --home /etc/consul.d --shell /bin/false consul
+mkdir --parents /opt/consul
+chown --recursive consul:consul /opt/consul
