@@ -1,6 +1,7 @@
 run:
 	docker-compose up --force-recreate
 build:
+	sh download-consul.sh
 	docker image build -t consul-playground:latest .
 	make run
 clean:
